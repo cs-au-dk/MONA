@@ -11,7 +11,7 @@ To compile and install, see the file 'INSTALL'.
 The 'MONA Version 1.4 User Manual' is available from the MONA homepage.
 
 Information about the Graphviz tool for visualization of DFAs 
-can be found at http://www.research.att.com/sw/tools/graphviz/.
+can be found at http://www.graphviz.org/.
 
 A simple Emacs MONA mode is available in this package. 
 See 'mona-mode.el' for further information.
