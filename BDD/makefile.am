@@ -1,0 +1,9 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+lib_LTLIBRARIES = libmonabdd.la
+libmonabdd_la_SOURCES = bdd.c bdd_cache.c bdd_double.c bdd_dump.c bdd_dump.h \
+	bdd_external.c bdd_external.h bdd_internal.h bdd_manager.c \
+	bdd_trace.c hash.c hash.h
+libmonabdd_la_LDFLAGS = -version-info 1:4
+libmonabdd_la_LIBADD = ../Mem/libmonamem.la
+monadir = $(includedir)/mona
+mona_HEADERS = bdd.h

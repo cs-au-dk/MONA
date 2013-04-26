@@ -1,0 +1,63 @@
+From v1.2 to v1.3
+-----------------
+    * New features:
+          o DFA and GTA package documentation and examples
+          o in_state_space (in WS2S: to test state space)
+          o execute (compiles without conjoining)
+          o pconst (Presburger constants)
+          o inherited-acceptance analysis (in WS2S: state analysis)
+          o gta2dot for visualizing GTAs
+          o C-style comments (/* .. */)
+    * Bug fixes:
+          o occasionally wrong free variables read by import
+          o occasionally non-minimum counter-example
+          o GTA bug (rare error occurring with huge GTAs)
+          o recursion on restrictions was not implemented correctly
+    * Source-code improvements:
+          o interfaces to DFA and GTA packages simplified
+          o all memory leaks removed
+          o improved Emacs MONA mode
+          o guide/universe construction rewritten
+          o improved automaton file format
+          o all timers now use CPU time
+          o DAG code simplified
+    * Minor changes:
+          o unrestriction now explicit (-u option)
+          o command-line usage now more intuitive
+          o alphabet now consists of all globally declared variables
+          o restr-feature removed (was confusing)
+          o use ws1s, ws2s instead of linear, tree
+
+From v1.3 to v1.4
+-----------------
+    * New features:
+          o recursive types for WS2S - this feature allows GTA guides to
+	    be specified using a high-level notation, thereby making
+	    tree-mode easier to use and more efficient (- this extension
+	    of MONA makes the FIDO tool almost superfluous, so no more
+	    development will be made on FIDO)
+          o formula reductions - before the translation into automata,
+	    some reduction techniques are applied, which often reduce
+	    translation time (experiments show 5-70% improvement!)
+	  o new M2L-Str emulation - now the skeleton is specified using a
+	    second-order variable instead of a first-order variable (for
+	    compatibility, the old technique is still available using the
+	    -m option)
+    * Bug fixes:
+          o root in WS2S had wrong encoding
+          o all var1 globals are now asserted first-order even if not used
+          o export and lastpos didn't work together
+          o let had wrong scope
+          o small bugs in GTA and DFA analysis fixed
+          o the last memory leaks removed (this time we mean it :-)
+          o occasionally wrong free variables at "where"
+          o "include" didn't work properly
+    * Source-code improvements:
+          o better DAGification (typical 10% time improvement)
+          o the notions of implicative and conjunctive automata (which
+	    became obsolete when restrictions were added) have been removed
+    * Minor changes:
+          o better Graphviz DAG dump
+          o option -xw added: outputs resulting automaton in external format
+          o progress information extended: current number of automata in
+	    memory is now shown

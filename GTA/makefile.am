@@ -1,0 +1,11 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+lib_LTLIBRARIES = libmonagta.la
+libmonagta_la_SOURCES = analyze.c analyze_acceptance.c basic.c copy.c dyn.c \
+	dyn.h external.c gta.c makebasic.c minimize.c negation.c pairhash.c \
+	pairhash.h printgta.c product.c project.c projset.c projset.h \
+	reachable.c replace_indices.c restrict.c subsets.c subsets.h types.c
+libmonagta_la_CPPFLAGS = -I ../BDD
+libmonagta_la_LDFLAGS = -version-info 1:4
+libmonagta_la_LIBADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la
+monadir = $(includedir)/mona
+mona_HEADERS = gta.h

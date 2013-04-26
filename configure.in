@@ -1,0 +1,136 @@
+# Process this file with autoconf to produce a configure script.
+
+dnl ========== initialization ==========
+
+AC_INIT([mona], [1.4])
+RELEASE=13
+AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_SRCDIR(Front/mona.cpp)
+AM_INIT_AUTOMAKE()
+AC_CONFIG_HEADERS([config.h])
+
+AC_SUBST(VERSION)
+AC_SUBST(RELEASE)
+AC_DEFINE_UNQUOTED(RELEASE, "$RELEASE", Release number of package)
+
+AC_GNU_SOURCE
+
+dnl ========== checks for programs ==========
+
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_INSTALL
+AC_PROG_LIBTOOL
+AC_PROG_YACC
+AM_PROG_LEX
+
+dnl ========== special configure parameters ==========
+
+CFG=
+
+AC_ARG_ENABLE(debug,
+[  --enable-debug          development mode],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -g -ansi -pedantic" ;;
+     no) CXXFLAGS="$CXXFLAGS -O3 -DNDEBUG" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
+  esac],
+[ CXXFLAGS="$CXXFLAGS -O3 -DNDEBUG" ])
+
+if test "x$GCC" = "xyes"; then
+  if test -z "`echo "$CXXFLAGS" | grep "\-Wall" 2> /dev/null`" ; then
+    CXXFLAGS="$CXXFLAGS -Wall"
+  fi
+fi
+
+AC_ARG_ENABLE(profiling,
+[  --enable-profiling      compile with profiling],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -pg" ;;
+     no) ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-profiling) ;;
+  esac])
+
+AC_ARG_ENABLE(memdebug,
+[  --enable-memdebug       enable debug info for dlmalloc],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -DDEBUG" ;;
+     no) ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-memdebug) ;;
+  esac])
+
+AC_ARG_ENABLE(maxalloc,
+[  --enable-maxalloc       measure max allocated memory],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -DMAXALLOCATED" ;;
+     no) ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-maxalloc) ;;
+  esac])
+
+AC_ARG_ENABLE(malloc,
+[  --enable-malloc         use built-in malloc instead of dlmalloc],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -DUSE_MALLOC" ;;
+     no) ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-malloc) ;;
+  esac
+  CFG="$CFG --enable-malloc=$enableval"])
+
+AC_SUBST(CFG)
+
+dnl ========== checks for operating system ==========
+
+AC_MSG_CHECKING(Win32 compiler)
+have_win32_gcc=no
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ #include <windows.h> ]], [[]])],[have_win32_gcc=yes],[])
+AC_MSG_RESULT($have_win32_gcc)
+
+if test x$have_win32_gcc = xyes; then
+  CXXFLAGS="$CXXFLAGS -DWIN32" 
+fi
+
+CFLAGS=$CXXFLAGS
+AC_SUBST(CFLAGS)
+
+dnl ========== checks for header files ==========
+
+AC_HEADER_STDC
+AC_CHECK_HEADERS(stdlib.h string.h sys/time.h unistd.h
+                 ,,AC_MSG_ERROR(required header file not found))
+
+dnl ========== checks for typedefs, structures, and compiler characteristics ==========
+
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+
+dnl ========== checks for library functions ==========
+
+AC_DEFUN([FUNCTION_MISSING], [AC_MSG_ERROR(required library function not found)])
+
+AC_TYPE_SIGNAL
+if test "$ac_cv_type_signal" = "int"; then 
+  SIGRET=return 0
+else
+  SIGRET=return
+fi
+AC_DEFINE_UNQUOTED(SIGRET, $SIGRET, Signal handler successful return)
+
+AC_FUNC_MALLOC
+AC_FUNC_MEMCMP
+AC_FUNC_MMAP
+AC_CHECK_FUNCS(alarm memset mkdir,,FUNCTION_MISSING)
+
+dnl ========== output files ==========
+
+AC_CONFIG_FILES([mona.spec
+          makefile
+          config/makefile
+          Mem/makefile 
+          BDD/makefile 
+          DFA/makefile 
+          GTA/makefile 
+          Front/makefile
+          Lib/makefile
+          Examples/makefile])
+AC_OUTPUT

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -x
+rm -f config.cache
+aclocal
+autoheader
+libtoolize --copy --force
+automake --add-missing --copy
+autoconf

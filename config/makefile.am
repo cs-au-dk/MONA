@@ -1,0 +1,3 @@
+MAINTAINERCLEANFILES = makefile.in makefile mkinstalldirs install-sh \
+	ltmain.sh ltconfig config.sub config.guess depcomp
+EXTRA_DIST = rpm-config init devel

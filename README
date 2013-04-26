@@ -1,0 +1,36 @@
+MONA Version 1.4
+Copyright (C) 1997-2008 BRICS.
+
+[The 'Mem/dlmalloc.*' are the memory management
+routines of Doug Lea (dl@cs.oswego.edu) and are 
+not covered by the BRICS copyright.]
+
+Please read the file 'COPYING' before you use MONA.
+To compile and install, see the file 'INSTALL'.
+
+The 'MONA Version 1.4 User Manual' is available from the MONA homepage.
+
+Information about the Graphviz tool for visualization of DFAs 
+can be found at http://www.research.att.com/sw/tools/graphviz/.
+
+A simple Emacs MONA mode is available in this package. 
+See 'mona-mode.el' for further information.
+
+The directory 'Lib' contains libraries for using the external
+automaton format and some example applications.
+The directory 'Examples' contains the MONA programs shown in the
+manual and some example applications of the BDD, DFA and GTA packages
+using the internal representation.
+
+If you have any problems or questions about the source code, 
+please send email to 
+  
+  mona@brics.dk 
+
+or visit the MONA homepage at 
+
+  http://www.brics.dk/mona 
+
+
+Anders Moeller
+amoeller@brics.dk

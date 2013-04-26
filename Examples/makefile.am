@@ -1,0 +1,25 @@
+MAINTAINERCLEANFILES = makefile.in makefile html.gta \
+	presburger_plus_012.dfa presburger_less_01.dfa \
+	presburger_timestwo_01.dfa presburger_const42.dfa
+EXTRA_DIST = bdd_volatility ab1.mona even_with_pred.mona minusmodulo.mona \
+	regexp.mona ab2.mona html.mona nadder.mona even.mona hyman.mona \
+	plusmodulo.mona even_with_assert.mona lossy_queue.mona presburger.mona
+noinst_PROGRAMS = bdd_example gta_example presburger_transduction \
+	presburger_analysis
+
+AM_CPPFLAGS = -I../Mem -I../BDD -I../DFA -I../GTA
+
+bdd_example_SOURCES = bdd_example.c
+bdd_example_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la
+
+gta_example_SOURCES = gta_example.c
+gta_example_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la \
+	../GTA/libmonagta.la
+
+presburger_transduction_SOURCES = presburger_transduction.c
+presburger_transduction_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la \
+	../DFA/libmonadfa.la
+
+presburger_analysis_SOURCES = presburger_analysis.c
+presburger_analysis_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la \
+	../DFA/libmonadfa.la

@@ -1,0 +1,6 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+lib_LTLIBRARIES = libmonamem.la
+libmonamem_la_SOURCES = dlmalloc.c mem.c
+libmonamem_la_LDFLAGS = -version-info 1:4
+monadir = $(includedir)/mona
+mona_HEADERS = dlmalloc.h gnuc.h mem.h

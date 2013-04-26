@@ -1,0 +1,64 @@
+Compiling and installing MONA
+-----------------------------
+
+Files are installed in the following directories:
+
+  $(bindir)/         - contains the 'mona' executable
+  $(mandir)/         - contains the manual page for 'mona'
+  $(datadir)/        - contains 'mona-mode.el' for Emacs
+
+This can be changed by passing appropriate arguments to 'configure'
+(see './configure --help').  To configure the same way as RPM does it,
+start by running
+
+  config/rpm-config      (arguments are passed on to 'configure')
+
+otherwise, run
+
+  ./configure            (with appropriate configuration switches)
+
+To compile and install, run
+
+  make
+  make install-strip     (may require root permissions)
+
+If you run 'make' without 'make install-strip', you should manually
+run 'strip mona' to remove symbol table, etc., from the executable.
+
+To uninstall, run
+
+  make uninstall         (may require root permissions)
+
+
+
+Building binary RPMs
+--------------------
+
+Configuration options (passed to './configure' or 'config/rpm-config')
+are also inserted in 'mona.spec'.  This means that if you run
+
+  make rpm
+
+you will get a binary RPM that is tailored for your system.
+
+
+
+Building the Lib and Examples programs
+--------------------------------------
+
+To compile the programs in the Lib and Examples directories, run
+
+  make lib
+  make examples
+
+
+
+For developers
+--------------
+
+Useful commands:
+  config/init              - run aclocal, autoheader, automake, and autoconf
+  config/rpm-config        - run configure with RPM configuration
+  config/devel             - run init and rpm-config with debug enabled
+  make rpm                 - make tar.gz and source+binary RPMs
+  make maintainer-clean    - remove all files that can be auto-regenerated

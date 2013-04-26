@@ -1,0 +1,9 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+lib_LTLIBRARIES = libmonadfa.la
+libmonadfa_la_SOURCES = analyze.c basic.c dfa.c external.c hash.h makebasic.c \
+	minimize.c prefix.c printdfa.c product.c project.c quotient.c
+libmonadfa_la_CPPFLAGS = -I ../BDD
+libmonadfa_la_LDFLAGS = -version-info 1:4
+libmonadfa_la_LIBADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la
+monadir = $(includedir)/mona
+mona_HEADERS = dfa.h

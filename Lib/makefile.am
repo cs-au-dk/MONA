@@ -1,0 +1,4 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+bin_PROGRAMS = dfa2dot gta2dot
+dfa2dot_SOURCES = dfa2dot.c dfalib.c dfalib.h bddlib.h
+gta2dot_SOURCES = gta2dot.c gtalib.c gtalib.h bddlib.h

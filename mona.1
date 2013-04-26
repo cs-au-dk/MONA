@@ -1,0 +1,81 @@
+.TH MONA 1 "FEBRUARY 2008" "" "BRICS tools"
+.SH NAME
+mona \- a decision procedure for the logics WS1S and WS2S
+.SH SYNOPSIS
+.B mona 
+[
+.I options
+]
+.I mona-file
+.SH DESCRIPTION
+.B MONA 
+is a tool that translates formulas in the logics WS1S or WS2S into
+finite-state automata represented by BDDs.  The formulas may express
+search patterns, temporal properties of reactive systems, parse tree
+constraints, etc.  MONA also analyses the automaton resulting from the
+compilation, and determines whether the formula is valid and, if the
+formula is not valid, generates a counter-example.
+
+The MONA project is a research project at the BRICS Research
+Center at University of Aarhus, Denmark.
+
+Full documentation, GPL source code, and related research papers are
+available from the MONA project home page at
+.B http://www.brics.dk/mona
+.SH OPTIONS
+.IP -w   
+Output whole automaton. Default is to only output its size.
+.IP -n   
+Don't analyze automaton. Default is to analyze for validity and
+unsatisfiability and to generate a satisfying example and
+counter-example.
+.IP -t   
+Print elapsed time for each phase. If -s is also used, the time for
+each automaton operation is also printed.
+.IP -s   
+Print statistics. Prints information for each automaton operation and
+a summary.
+.IP -i   
+Print intermediate automata (implies -s).
+.IP -d   
+Dump AST, symboltable, and code DAG. Useful for debugging.
+.IP -q   
+Quiet, don't print progress.
+.IP -e   
+Enable separate compilation. (See the MONALIB environment variable below.)
+.IP -oN  
+Code optimization level N (0=none, 1=safe, 2=heuristic) (default 1).
+.IP -r   
+Disable BDD index reordering, use order of declaration as index ordering. 
+Default is to reorder BDD indices heuristically.
+.IP -f   
+Force normal tree-mode output style. Only applicable for WSRT mode.
+.IP -m   
+Alternative M2L-Str emulation (v1.3 style).
+.IP -h   
+Enable inherited acceptance analysis.
+.IP -u   
+Unrestrict output automata. Create conventional automata by converting
+"don't-care" states to "reject" states and minimizes.
+.IP -gw  
+Output whole automaton in Graphviz format (implies -n -q).
+(Graphviz is available at http://www.research.att.com/sw/tools/graphviz/)
+.IP -gs  
+Output satisfying example tree in Graphviz format (implies -q).
+.IP -gc  
+Output counter-example tree in Graphviz format (implies -q).
+.IP -gd  
+Dump code DAG in Graphviz format (implies -n -q).
+.IP -xw  
+Output whole automaton in external format (implies -n -q). "External
+format" is the format used by dfalib and gtalib, see the source
+package.
+.SH ENVIRONMENT
+.IP MONALIB
+Defines the directory used for separate-compilation automata (default
+is current directory).
+.SH BUGS
+Please send bug reports to <mona@brics.dk>
+.SH AUTHORS
+Anders Moeller <amoeller@brics.dk>, Nils Klarlund, Jacob Elgaard, 
+Theis Rauhe, and Morten Biehl.

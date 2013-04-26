@@ -1,0 +1,4 @@
+#!/bin/sh
+set -x
+config/init
+config/rpm-config --enable-debug $*

@@ -1,0 +1,3 @@
+#!/bin/sh
+set -x
+/bin/sh -c "`rpm --eval '%{configure}'` $*"

@@ -1,0 +1,24 @@
+SUBDIRS =  config Mem BDD DFA GTA Front Lib Examples
+EXTRA_DIST = mona.spec mona-mode.el mona.1
+MAINTAINERCLEANFILES = configure stamp-h.in makefile makefile.in aclocal.m4 \
+	  config.h.in config.log config.status config/missing configure.lineno
+man_MANS = mona.1
+dist_data_DATA = mona-mode.el
+monadir = $(includedir)/mona
+mona_HEADERS = config.h
+
+tgz:	dist
+	mv -f mona-@VERSION@.tar.gz mona-@VERSION@-@RELEASE@.tar.gz
+
+rpm:	tgz
+	rpmbuild -ta mona-@VERSION@-@RELEASE@.tar.gz
+	cp `rpm --eval %{_rpmdir}/%{_arch}`/mona-@VERSION@-@RELEASE@.`rpm --eval %{_arch}`.rpm \
+	 `rpm --eval %{_srcrpmdir}`/mona-@VERSION@-@RELEASE@.src.rpm .
+
+lib:	all
+	$(MAKE) -C Lib $@
+
+examples: all
+	$(MAKE) -C Examples $@
+
+.PHONY: rpm tgz lib examples

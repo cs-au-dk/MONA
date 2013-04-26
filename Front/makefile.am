@@ -1,0 +1,15 @@
+MAINTAINERCLEANFILES = makefile.in makefile
+BUILT_SOURCES = parser.h
+AM_LFLAGS = -l
+AM_YFLAGS = -d
+bin_PROGRAMS = mona
+mona_SOURCES = ast.cpp astdump.cpp ast.h code.cpp codedump.cpp code.h \
+	codesubst.cpp codetable.cpp codetable.h deque.h env.h freevars.cpp \
+	ident.cpp ident.h lib.cpp lib.h makeguide.cpp mona.cpp offsets.cpp \
+	offsets.h parser.ypp predlib.cpp predlib.h printline.cpp printline.h \
+	reduce.cpp scanner.lpp signature.cpp signature.h st_dfa.cpp st_dfa.h \
+	st_gta.cpp st_gta.h str.h symboltable.cpp symboltable.h timer.cpp \
+	timer.h untyped.cpp untyped.h
+mona_CPPFLAGS = -I ../BDD
+mona_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la ../DFA/libmonadfa.la \
+	../GTA/libmonagta.la
