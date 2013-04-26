@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+ * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335,
  * USA.
  */
 
@@ -227,13 +227,12 @@ Usage()
     << "Full documentation is available at http://www.brics.dk/mona\n";
 }
 
-RETSIGTYPE
+void
 cpuLimit(int)
 {
   cout << "\n\n-----\n"
        << "Interactive Demo time exceeded, execution stopped.\n";
   exit(-1);
-  SIGRET;
 }
 
 int 
