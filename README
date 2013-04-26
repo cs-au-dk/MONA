@@ -1,9 +1,9 @@
 MONA Version 1.4
-Copyright (C) 1997-2008 BRICS.
+Copyright (C) 1997-2013 Aarhus University.
 
 [The 'Mem/dlmalloc.*' are the memory management
 routines of Doug Lea (dl@cs.oswego.edu) and are 
-not covered by the BRICS copyright.]
+not covered by the Aarhus University copyright.]
 
 Please read the file 'COPYING' before you use MONA.
 To compile and install, see the file 'INSTALL'.
@@ -25,12 +25,8 @@ using the internal representation.
 If you have any problems or questions about the source code, 
 please send email to 
   
-  mona@brics.dk 
+  amoeller@cs.au.dk 
 
 or visit the MONA homepage at 
 
-  http://www.brics.dk/mona 
-
-
-Anders Moeller
-amoeller@brics.dk
+  http://www.brics.dk/mona

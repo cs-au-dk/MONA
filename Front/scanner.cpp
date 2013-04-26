@@ -614,7 +614,7 @@ char *yytext_ptr;
 #define INITIAL 0
 /*
  * MONA
- * Copyright (C) 1997-2008 BRICS.
+ * Copyright (C) 1997-2013 Aarhus University.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

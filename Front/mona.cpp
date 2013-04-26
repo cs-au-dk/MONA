@@ -1,6 +1,6 @@
 /*
  * MONA
- * Copyright (C) 1997-2008 BRICS.
+ * Copyright (C) 1997-2013 Aarhus University.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -199,7 +199,7 @@ void
 Usage()
 {
   cout << "MONA v" << VERSION << "-" << RELEASE << " for WS1S/WS2S\n"
-    << "Copyright (C) 1997-2008 BRICS\n\n"
+    << "Copyright (C) 1997-2013 Aarhus University\n\n"
     << "Usage: mona [options] <filename>\n\n"
     << "Options:\n"
     << " -w   Output whole automaton\n"
@@ -275,7 +275,7 @@ main(int argc, char *argv[])
 
   if (options.printProgress)
     cout << "MONA v" << VERSION << "-" << RELEASE <<  " for WS1S/WS2S\n"
-      "Copyright (C) 1997-2008 BRICS\n\n"
+      "Copyright (C) 1997-2013 Aarhus University\n\n"
       "PARSING\n";
 
   Timer timer_parsing;

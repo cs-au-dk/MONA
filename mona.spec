@@ -9,10 +9,10 @@ Release: %{release}
 License: GPL
 Group: Development/Tools
 URL: http://www.brics.dk/mona
-Vendor: BRICS
+Vendor: Aarhus University
 Source: http:/www.brics.dk/mona/download/%{name}-%{version}-%{release}.tar.gz
 BuildRoot: /tmp/%{name}-%{version}
-Packager: Anders Moeller <amoeller@brics.dk>
+Packager: Anders Moeller <amoeller@cs.au.dk>
 
 %description 
 MONA is a tool that translates formulas in the logics WS1S or WS2S

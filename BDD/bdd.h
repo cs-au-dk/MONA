@@ -1,6 +1,6 @@
 /*
  * MONA
- * Copyright (C) 1997-2008 BRICS.
+ * Copyright (C) 1997-2013 Aarhus University.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -409,7 +409,7 @@ extern unsigned fn_identity(unsigned p);
 
 #define invariant(exp) \
   ((void) ((exp) ? 0 : \
-  (printf("%s:%u: failed invariant - please inform mona@brics.dk\n",  \
+  (printf("%s:%u: failed invariant - please inform amoeller@cs.au.dk\n",  \
 	  __FILE__, __LINE__), \
   abort(), 0)))
 
