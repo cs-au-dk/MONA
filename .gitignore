@@ -6,4 +6,20 @@ makefile
 /config.status
 /libtool
 /stamp-h1
+/config.h
+/mona.spec
+*.o
+*.lo
+*.la
+/Front/parser.cpp
+/Front/parser.h
+/Front/scanner.cpp
+.libs
+Examples/bdd_example
+Examples/gta_example
+Examples/presburger_analysis
+Examples/presburger_transduction
+Front/mona
+Lib/dfa2dot
+Lib/gta2dot
 
