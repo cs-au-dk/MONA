@@ -1,5 +1,7 @@
-2013-04-26 (version 1.4-14)
+2013-04-27 (version 1.4-14)
   - updated autotools [Thanks yet again to Jerry James!]
+  - updated contact information
+  - fixed some compiler warnings
 
 2008-08-05 (version 1.4-13)
   - fixed bug in basic automaton for x=y+1%z [Thanks to Stan Rosenberg!]
