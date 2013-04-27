@@ -60,7 +60,7 @@ int main() {
   bdd_ptr zero, one;
   bdd_handle var2, var7;
   bdd_ptr and_2_7, nand_2_7;
-  bdd_handle handle;
+  /*bdd_handle handle;*/
 
   bdd_init(); /* needed since we're using statistics */
 
@@ -106,7 +106,7 @@ int main() {
  
   printf("Size of bddm1: %d\n\n", bdd_size(bddm1));
  
-  handle = BDD_LAST_HANDLE(bddm1); 
+  /*handle = BDD_LAST_HANDLE(bddm1);*/
 
   assert(handle == 0);
   assert(BDD_ROOT(bddm1, handle) == and_2_7);

@@ -1853,7 +1853,7 @@ Verify_Declaration::genAST(MonaAST &monaAST)
 
   monaAST.verifyformlist.push_back((ASTForm *) f);
   if (!title)
-    title = "<untitled>";
+    title = const_cast<char*>("<untitled>");
   monaAST.verifytitlelist.push_back(title);
 }
  

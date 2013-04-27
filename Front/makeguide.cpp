@@ -47,13 +47,13 @@ MonaUntypedAST::makeGTAGuide()
     }
     if (univs->size() == 1) {
       // boolean and universe state space must be different
-      Name name = Name("<dummy>", dummyPos);
+      Name name = Name(const_cast<char*>("<dummy>"), dummyPos);
       symbolTable.insertUniv(&name, NULL, true); 
       delete univs;
       univs = symbolTable.allUnivs();
     }
     guide_declaration = new Guide_Declaration(new GuideFuncList, dummyPos);
-    typedUnivs2guide(univs->size(), univs, 0, "");
+    typedUnivs2guide(univs->size(), univs, 0, const_cast<char*>(""));
   }
 
   if (guide_declaration) { // guide is declared
@@ -154,7 +154,7 @@ MonaUntypedAST::makeGTAGuide()
   else { // no guide declared, make default
     if (!univs || univs->empty()) {
       // make one universe
-      Name name = Name("<univ>", dummyPos);
+      Name name = Name(const_cast<char*>("<univ>"), dummyPos);
       symbolTable.insertUniv(&name, (char *) NULL); 
       delete univs;
       univs = symbolTable.allUnivs();
@@ -162,7 +162,7 @@ MonaUntypedAST::makeGTAGuide()
       
     if (univs->size() == 1) {
       // boolean and universe state space must be different
-      Name name = Name("<dummy>", dummyPos);
+      Name name = Name(const_cast<char*>("<dummy>"), dummyPos);
       symbolTable.insertUniv(&name, NULL, true); 
       delete univs;
       univs = symbolTable.allUnivs();
@@ -215,7 +215,7 @@ MonaUntypedAST::typedUnivs2guide(unsigned num, IdentList *univs, unsigned idx,
       ASTVariantList *variants = symbolTable.lookupTypeVariants(typeId);
       IdentList typeSet(typeId);
       ssname = variants2guide(variants->size(), variants, 0, &typeSet, typeId,
-			      univ, symbolTable.lookupSymbol(typeId), "");
+			      univ, symbolTable.lookupSymbol(typeId), const_cast<char*>(""));
       symbolTable.addTypeStatespace(typeId, ssname);
       Name n(ssname, dummyPos);
       symbolTable.setSSType(symbolTable.lookupIdent(&n), typeId);
@@ -259,7 +259,7 @@ MonaUntypedAST::variants2guide(unsigned num, ASTVariantList *variants,
     ssname = symbolTable.insertString(ssname);
 
     char *leftpos, *rightpos;
-    GuideFunc *g = makeStateSpace(ssname, "", &leftpos, &rightpos, SS_ORLEAF);
+    GuideFunc *g = makeStateSpace(ssname, const_cast<char*>(""), &leftpos, &rightpos, SS_ORLEAF);
     unsigned size = v->components ? v->components->size() : 0;
     g->name2 = new Name(components2guide((size+1)/2, v->components, 0, 
 					 typeSet, typeId, idx,
@@ -313,7 +313,7 @@ MonaUntypedAST::components2guide(unsigned num, ASTComponentList *components,
     if (!typeSet->exists(typeId)) { // make new
       typeSet->insert(typeId);
       ssname = variants2guide(variants->size(), variants, 0, typeSet, typeId,
-			      univ, c->type, "");
+			      univ, c->type, const_cast<char*>(""));
       symbolTable.addTypeStatespace(typeId, ssname);
       Name n(ssname, dummyPos);
       symbolTable.setSSType(symbolTable.lookupIdent(&n), typeId);

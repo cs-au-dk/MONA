@@ -70,7 +70,7 @@ Deque<char *> fileNames; /* list of file names */
 Deque<char> currentLine; /* contains the current line being parsed */
 
 Deque<char *> currentDir;
-char *file = "";
+char *file = const_cast<char*>("");
 unsigned pos = 0;
 int prevnl = 0;
 int filenumber = 0;

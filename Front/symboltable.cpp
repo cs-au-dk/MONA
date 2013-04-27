@@ -548,43 +548,43 @@ SymbolTable::dump()
 
     switch (e->monaTypeTag) {
     case Varname0:
-      type = "var0";
+      type = const_cast<char*>("var0");
       break;
     case Varname1: 
-      type = "var1";
+      type = const_cast<char*>("var1");
       break;
     case Varname2:
-      type = "var2";
+      type = const_cast<char*>("var2");
       break;
     case VarnameTree:
-      type = "tree";
+      type = const_cast<char*>("tree");
       break;
     case Parname0: 
-      type = "par0";
+      type = const_cast<char*>("par0");
       break;
     case Parname1: 
-      type = "par1";
+      type = const_cast<char*>("par1");
       break;
     case Parname2: 
-      type = "par2";
+      type = const_cast<char*>("par2");
       break;
     case ParnameU:
-      type = "par univ";
+      type = const_cast<char*>("par univ");
       break;
     case Univname: 
-      type = "univ";
+      type = const_cast<char*>("univ");
       break;
     case Predname:
-      type = "pred/macro";
+      type = const_cast<char*>("pred/macro");
       break;
     case Constname: 
-      type = "const";
+      type = const_cast<char*>("const");
       break;
     case Statespacename:
-      type = "statespace";
+      type = const_cast<char*>("statespace");
       break;
     case Typename:
-      type = "type";
+      type = const_cast<char*>("type");
       anyTypes = true;
       break;
     default:

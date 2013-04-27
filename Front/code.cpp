@@ -291,7 +291,7 @@ Code_ni::hash()
 Code_nn::Code_nn(CodeKind knd, Ident i, Ident j, Pos p) :
   Code(knd, p), id1(i), id2(j)
 {
-  if ((kind==cEq1 || kind==cEq2) & id1 > id2) { // exploit relation symmetry
+  if ((kind==cEq1 || kind==cEq2) && id1 > id2) { // exploit relation symmetry
     Ident t = id1;
     id1 = id2;
     id2 = t;
@@ -347,7 +347,7 @@ Code_nni::hash()
 Code_nnn::Code_nnn(CodeKind knd, Ident i, Ident j, Ident k, Pos p) :
   Code(knd, p), id1(i), id2(j), id3(k)
 {
-  if ((kind==cEqUnion || kind==cEqInter) & id2 > id3) { // exploit symmetry
+  if ((kind==cEqUnion || kind==cEqInter) && id2 > id3) { // exploit symmetry
     Ident t = id2;
     id2 = id3;
     id3 = t;
