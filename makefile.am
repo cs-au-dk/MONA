@@ -6,6 +6,7 @@ man_MANS = mona.1
 dist_data_DATA = mona-mode.el
 monadir = $(includedir)/mona
 mona_HEADERS = config.h
+ACLOCAL_AMFLAGS = -I m4
 
 tgz:	dist
 	mv -f mona-@VERSION@.tar.gz mona-@VERSION@-@RELEASE@.tar.gz
