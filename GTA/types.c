@@ -202,7 +202,7 @@ static void printTypedTree(int type, Tree *tree, unsigned index)
     printf("?");
     return;
   }
-  printf(treetypes[type].variantName[v]);
+  printf("%s", treetypes[type].variantName[v]);
   numComp = treetypes[type].numComponents[v];
   if (numComp > 0) {
     printf("(");
@@ -310,7 +310,7 @@ static Tree *printTreeRoot(Tree *tree, unsigned index, int type, char *path)
     while (t && (t->index != index))
       t = t->next;
     if (t && t->value) { /* read a 1? */
-      printf(path);
+      printf("%s", path);
       res = tree;
     }
     kill_trace(p);
@@ -385,7 +385,7 @@ static void printTypePositions(Tree *tree, unsigned index,
     if (t && t->value) { /* read a 1? */
       if (!*first)
 	printf(",");
-      printf(path);
+      printf("%s", path);
       *first = 0;
     }
     kill_trace(p);

@@ -18,6 +18,7 @@
  * USA.
  */
 
+#include <stdint.h>
 #include "dfa.h"
 #include "../BDD/hash.h"
 #include "../Mem/mem.h"
@@ -42,12 +43,12 @@ and final; put the result in discrs and return the number of classes*/
   unsigned i;
   
   for (i = 0;  i < length; i++) {
-    unsigned k = (unsigned) lookup_in_hash_tab(htbl, (unsigned)roots[i], final[i]);
+    unsigned k = (unsigned)(uintptr_t) lookup_in_hash_tab(htbl, (unsigned)roots[i], final[i]);
 
     if (k == 0) {
       insert_in_hash_tab(htbl, 
 			 (unsigned)roots[i], final[i],
-			 (void *) ++next);
+			 (void *)(uintptr_t) ++next);
       discrs[i] = next - 1;
     }
     else

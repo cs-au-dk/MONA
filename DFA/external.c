@@ -105,64 +105,100 @@ DFA *dfaImport(char* filename, char ***vars, int **orders)
   if ((file = fopen(filename, "r")) == 0) 
     return 0;
 
-  fscanf(file,
+  if (fscanf(file,
 	 "MONA DFA\n"
 	 "number of variables: %u\n"
-	 "variables: ", &numvars);
+         "variables: ", &numvars) != 1) {
+    fclose(file);
+    return 0;
+  }
   if (vars) {
     *vars = (char **) mem_alloc(sizeof(char *) * (numvars + 1));
     (*vars)[numvars] = 0;
     for (i = 0; i < numvars; i++) {
       (*vars)[i] = (char *) mem_alloc(100);
-      fscanf(file, " %s ", (*vars)[i]);
+      if (fscanf(file, " %s ", (*vars)[i]) != 1) {
+	fclose(file);
+	return 0;
+      }
     }
   }
   else {
     for (i = 0; i < numvars; i++)
-      fscanf(file, " %s ", ts);
+      if (fscanf(file, " %s ", ts) != 1) {
+	fclose(file);
+        return 0;
+      }
   }
-  fscanf(file,
-	 "orders: ");
+  if (fscanf(file, "orders: ") != 0) {
+    fclose(file);
+    return 0;
+  }
   if (orders) {
     *orders = (int *) mem_alloc(sizeof(int) * numvars);
     for (i = 0; i < numvars; i++)
-      fscanf(file, " %d ", &((*orders)[i]));
+      if (fscanf(file, " %d ", &((*orders)[i])) != 1) {
+	fclose(file);
+	return 0;
+      }
   }
   else
     for (i = 0; i < numvars; i++)
-      fscanf(file, " %d ", &ti);
+      if (fscanf(file, " %d ", &ti) != 1) {
+	fclose(file);
+	return 0;
+      }	
   if (fscanf(file,
              "states: %u\n"
              "initial: %u\n"
              "bdd nodes: %u\n"
              "final:", 
-             &ns, &s, &bdd_nodes) != 3) 
+             &ns, &s, &bdd_nodes) != 3) {
+    fclose(file);
     return 0;
+  }
   a = dfaMake(ns);
   a->s = s;
 
   for (i = 0; i<a->ns; i++)
-    fscanf(file, " %d", &a->f[i]);
+    if (fscanf(file, " %d", &a->f[i]) != 1) {
+      fclose(file);
+      return 0;
+    }
 
-  fscanf(file, "\nbehaviour:");
+  if (fscanf(file, "\nbehaviour:") != 0) {
+    fclose(file);
+    return 0;
+  }
   for (i = 0; i < a->ns; i++)
-    fscanf(file, " %u", &a->q[i]);
+    if (fscanf(file, " %u", &a->q[i]) != 1) {
+      fclose(file);
+      return 0;
+    }
 
-  fscanf(file, "\nbdd:\n");
+  if (fscanf(file, "\nbdd:\n") != 0) {
+    fclose(file);
+    return 0;
+  }
   table = (BddNode *) mem_alloc(sizeof(BddNode)*bdd_nodes);
   
   for (i = 0; i < bdd_nodes; i++) {
     table[i].p = -1;
-    fscanf(file, "%i %u %u\n", 
+    if (fscanf(file, "%i %u %u\n", 
            &table[i].idx,
            &table[i].lo,
-           &table[i].hi);
+	   &table[i].hi) != 3) {
+      fclose(file);
+      return 0;
+    }
   }
   
   if (fgetc(file) != 'e' ||
       fgetc(file) != 'n' ||
-      fgetc(file) != 'd') 
+      fgetc(file) != 'd') {
+    fclose(file);
     return 0;
+  }
   fclose(file);
 
   /* fill bdd-manager */

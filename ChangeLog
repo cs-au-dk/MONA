@@ -1,3 +1,7 @@
+2013-07-01 (version 1.4-15)
+  - fixed bug in Front/printline.cpp [Thanks to Rob Stanzel!]
+  - fixed memory leak in dfalib.c [Thanks to Daniel Neider!]
+
 2013-04-27 (version 1.4-14)
   - updated autotools [Thanks yet again to Jerry James!]
   - updated contact information

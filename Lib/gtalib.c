@@ -58,14 +58,26 @@ mgGta *mgLoad(char *filename)
       mgFree(gta);
       return 0;
     }
-  fscanf(file, "\nfinal:");
+  if (fscanf(file, "\nfinal:") != 0) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+  }
   gta->final = (mgKind *) malloc(sizeof(mgKind)*gta->stateSpace[0].numStates);
   for (i = 0; i < gta->stateSpace[0].numStates; i++) {
     int f;
-    fscanf(file, " %d", &f);
+    if (fscanf(file, " %d", &f) != 1) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     gta->final[i] = f;
   }
-  fscanf(file, "\nguide:\n");
+  if (fscanf(file, "\nguide:\n") != 0) {
+    fclose(file);
+    mgFree(gta);
+    return 0;
+  }
   for (i = 0; i < gta->numSS; i++) {
     if (fscanf(file, "%s %u %u\n", 
 	       buffer, &gta->stateSpace[i].leftSS, 
@@ -86,41 +98,77 @@ mgGta *mgLoad(char *filename)
   gta->type = (mgType *) malloc(sizeof(mgType)*gta->numTypes);
   for (i1 = 0; i1 < gta->numTypes; i1++) {
     mgType *t = &gta->type[i1];
-    fscanf(file, "\ntype: %s\n", buffer);
+    if (fscanf(file, "\ntype: %s\n", buffer) != 1) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     t->name = (char *) malloc(strlen(buffer)+1);
     strcpy(t->name, buffer);
-    fscanf(file, "\nvariants: %u\n", &t->numVariants);
+    if (fscanf(file, "\nvariants: %u\n", &t->numVariants) != 1) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     t->variant = 
       (mgTypeVariant *) malloc(sizeof(mgTypeVariant)*t->numVariants);
     for (i2 = 0; i2 < t->numVariants; i2++) {
       mgTypeVariant *v = &t->variant[i2];
-      fscanf(file, "\nvariant: %s ", buffer);
+      if (fscanf(file, "\nvariant: %s ", buffer) != 1) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
       v->name = (char *) malloc(strlen(buffer)+1);
       strcpy(v->name, buffer);
-      fscanf(file, "%s\n", buffer);
+      if (fscanf(file, "%s\n", buffer) != 1) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
       if (buffer[0] == '-')
 	buffer[0] = 0;
       v->pos = (char *) malloc(strlen(buffer)+1);
       strcpy(v->pos, buffer);
-      fscanf(file, "\ncomponents: %u\n", &v->numComponents);
+      if (fscanf(file, "\ncomponents: %u\n", &v->numComponents) != 1) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
       v->component = 
 	(mgTypeComponent *) malloc(sizeof(mgTypeComponent)*v->numComponents);
       for (i3 = 0; i3 < v->numComponents; i3++) {
 	mgTypeComponent *c = &v->component[i3];
-	fscanf(file, "\n%s", buffer);
+	if (fscanf(file, "\n%s", buffer) != 1) {
+	  fclose(file);
+	  mgFree(gta);
+	  return 0;
+	}
 	c->name = (char *) malloc(strlen(buffer)+1);
 	strcpy(c->name, buffer);
-	fscanf(file, " %s ", buffer);
+	if (fscanf(file, " %s ", buffer) != 1) {
+	  fclose(file);
+	  mgFree(gta);
+	  return 0;
+	}
 	if (buffer[0] == '-')
 	  buffer[0] = 0;
 	c->pos = (char *) malloc(strlen(buffer)+1);
 	strcpy(c->pos, buffer);
-	fscanf(file, "%u\n", &c->type);
+	if (fscanf(file, "%u\n", &c->type) != 1) {
+	  fclose(file);
+	  mgFree(gta);
+	  return 0;
+	}
       }
     }
   }
   
-  fscanf(file, "\nuniverses:\n");
+  if (fscanf(file, "\nuniverses:\n") != 0) {
+    fclose(file);
+    mgFree(gta);
+    return 0;
+  }
   gta->universe = (mgUniverse *) memset(malloc(sizeof(mgUniverse)*gta->numUnivs),
 					0, sizeof(mgUniverse)*gta->numUnivs);
   for (i = 0; i < gta->numUnivs; i++) {
@@ -135,17 +183,29 @@ mgGta *mgLoad(char *filename)
     strcpy(gta->universe[i].pos, buffer2);
   }
   
-  fscanf(file, "\nvariable orders and state spaces:\n");
+  if (fscanf(file, "\nvariable orders and state spaces:\n") != 0) {
+    fclose(file);
+    mgFree(gta);
+    return 0;
+  }
   gta->var = (mgVariable *) memset(malloc(sizeof(mgVariable)*gta->numVars),
 				   0, sizeof(mgVariable)*gta->numVars);
   for (i = 0; i < gta->numVars; i++) {
-    fscanf(file, " %s %d:", buffer, &gta->var[i].order);
+    if (fscanf(file, " %s %d:", buffer, &gta->var[i].order) != 2) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     gta->var[i].name = (char *) malloc(strlen(buffer)+1);
     strcpy(gta->var[i].name, buffer);
     gta->var[i].varSS = (mgId *) malloc(sizeof(mgId)*gta->numSS);
     j = 0;
     while (1) {
-      fscanf(file, " %u", &gta->var[i].varSS[j++]);
+      if (fscanf(file, " %u", &gta->var[i].varSS[j++]) != 1) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
       if (fgetc(file)=='\n')
 	break;
     };
@@ -155,23 +215,39 @@ mgGta *mgLoad(char *filename)
   
   for (i = 0; i < gta->numSS; i++) {
     mgStateSpace *ss = &gta->stateSpace[i];
-    fscanf(file, 
+    if (fscanf(file, 
 	   "\nstate space %u:\n"
 	   "initial state: %u\n"
 	   "bdd nodes: %u\n",
-	   &t, &ss->initial, &ss->numBddNodes);
-    fscanf(file, "%s", buffer);
+	       &t, &ss->initial, &ss->numBddNodes) != 3) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
+    if (fscanf(file, "%s", buffer) != 1) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     ss->inhacc = NULL;
     if (strcmp(buffer, "inherited-acceptance:") == 0) {
       unsigned t1, t2, t3;
       ss->inhacc = (mgInhAcc *) malloc(sizeof(mgInhAcc)*ss->numStates);
       for (j = 0; j < ss->numStates; j++) {
-	fscanf(file, "\n%u %u %u ", &t1, &t2, &t3);
+	if (fscanf(file, "\n%u %u %u ", &t1, &t2, &t3) != 3) {
+	  fclose(file);
+	  mgFree(gta);
+	  return 0;
+	}
 	ss->inhacc[j].canReject = t1;
 	ss->inhacc[j].canDontCare = t2; 
 	ss->inhacc[j].canAccept = t3;
       }
-      fscanf(file, "behaviour:\n");
+      if (fscanf(file, "behaviour:\n") != 0) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
     }
     ss->behaviour = 
       (mNode **) malloc(sizeof(mNode *)*gta->stateSpace[ss->leftSS].numStates);
@@ -179,15 +255,27 @@ mgGta *mgLoad(char *filename)
       ss->behaviour[l] = 
 	(mNode *) malloc(sizeof(mNode)*gta->stateSpace[ss->rightSS].numStates);
       for (r = 0; r < gta->stateSpace[ss->rightSS].numStates; r++)
-	fscanf(file, "%u ", &ss->behaviour[l][r]);
+	if (fscanf(file, "%u ", &ss->behaviour[l][r]) != 1) {
+	  fclose(file);
+	  mgFree(gta);
+	  return 0;
+	}
     }
-    fscanf(file, "\nbdd:\n");
+    if (fscanf(file, "\nbdd:\n") != 0) {
+      fclose(file);
+      mgFree(gta);
+      return 0;
+    }
     ss->bddNode = (mBdd *) malloc(sizeof(mBdd)*ss->numBddNodes);
     for (n = 0; n < ss->numBddNodes; n++)
-      fscanf(file, "%i %u %u\n",
+      if (fscanf(file, "%i %u %u\n",
 	     &ss->bddNode[n].idx,
 	     &ss->bddNode[n].lo,
-	     &ss->bddNode[n].hi);
+	     &ss->bddNode[n].hi) != 3) {
+	fclose(file);
+	mgFree(gta);
+	return 0;
+      }
   }
 
   if (fgetc(file) != 'e' ||

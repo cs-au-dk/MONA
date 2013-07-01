@@ -18,6 +18,7 @@
  * USA.
  */
 
+#include <stdint.h>
 #include <stdlib.h>
 #include "dfa.h"
 #include "../BDD/hash.h"
@@ -57,12 +58,12 @@ unsigned prod_term_fn(unsigned  p, unsigned q)
 {    
   int res;
 
-  if ( (res = (int) lookup_in_hash_tab(htbl, p, q)) )
+  if ( (res = (int)(uintptr_t) lookup_in_hash_tab(htbl, p, q)) )
     /* res = 0 or id+1 */
     return (--res);
   else {
     insert_in_hash_tab(htbl,  p, 
-		       q, (void *) (res = ++last_state));
+		       q, (void *)(uintptr_t) (res = ++last_state));
     qt->next = new_list(p, q, (list) 0);
     qt = qt->next;
 
@@ -72,9 +73,9 @@ unsigned prod_term_fn(unsigned  p, unsigned q)
 
  
 /*insert a loop for the product state (p, q) */
-GNUC_INLINE void make_loop (bdd_manager *bddm, unsigned  p, unsigned q) {
+GNUC_INLINE void make_loop (bdd_manager *bddm, unsigned p, unsigned q) {
   int res;
-  res = (int) lookup_in_hash_tab(htbl, p, q);
+  res = (int)(uintptr_t) lookup_in_hash_tab(htbl, p, q);
   invariant(res);
   /* res = 0 or id+1 */
   (--res);

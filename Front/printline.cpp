@@ -50,7 +50,7 @@ Pos::printsource()
   c = col;
   if (strlen(str) >= 73) {
     if (col > 73) {
-      for (t = 0; t < 77; t++) {
+      for (t = 0; t < 76; t++) {
 	if (str[col - 40 + t] != '\0')
 	  temp[t] = str[col - 40 + t];
 	else

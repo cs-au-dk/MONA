@@ -197,11 +197,14 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
   for (i = 0; i < f_numSs; i++) 
     if (fscanf(file, " %u", &G->ss[i].size) != 1)   
       return 0;
-  fscanf(file, "\nfinal:");
+  if (fscanf(file, "\nfinal:") != 0)
+    return 0;
   G->final = (int *) mem_alloc(sizeof(int)*G->ss[0].size);
   for (i = 0; i < G->ss[0].size; i++)
-    fscanf(file, " %d", &G->final[i]);
-  fscanf(file, "\nguide:\n");
+    if (fscanf(file, " %d", &G->final[i]) != 1)
+      return 0;
+  if (fscanf(file, "\nguide:\n") != 0)
+    return 0;
   f_ssName = (char **) mem_alloc(sizeof(char *)*f_numSs);
   f_muLeft = (SsId *) mem_alloc(sizeof(SsId)*f_numSs);
   f_muRight = (SsId *) mem_alloc(sizeof(SsId)*f_numSs);
@@ -217,7 +220,8 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
     return 0;
   f_treetypes = (gtaType *) mem_alloc(sizeof(gtaType)*f_num_types);
   for (i = 0; i < f_num_types; i++) {
-    fscanf(file, "\ntype: %s\n", buffer);
+    if (fscanf(file, "\ntype: %s\n", buffer) != 1)
+      return 0;
     f_treetypes[i].name = (char *) mem_alloc(strlen(buffer)+1);
     strcpy(f_treetypes[i].name, buffer);
     if (fscanf(file, "\nvariants: %d\n", &f_treetypes[i].numVariants) != 1)
@@ -235,10 +239,12 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
     f_treetypes[i].componentType = 
       (int **) mem_alloc(sizeof(int *)*f_treetypes[i].numVariants);
     for (j = 0; j < f_treetypes[i].numVariants; j++) {
-      fscanf(file, "\nvariant: %s ", buffer);
+      if (fscanf(file, "\nvariant: %s ", buffer) != 1)
+	return 0;
       f_treetypes[i].variantName[j] = (char *) mem_alloc(strlen(buffer)+1);
       strcpy(f_treetypes[i].variantName[j], buffer);
-      fscanf(file, "%s\n", buffer);
+      if (fscanf(file, "%s\n", buffer) != 1)
+	return 0;
       f_treetypes[i].variantPos[j] = (char *) mem_alloc(strlen(buffer)+1);
       if (buffer[0]=='-')
 	buffer[0] = 0;
@@ -252,20 +258,24 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
       f_treetypes[i].componentType[j] =
 	(int *) mem_alloc(sizeof(int)*f_treetypes[i].numComponents[j]);
       for (k = 0; k < f_treetypes[i].numComponents[j]; k++) {
-	fscanf(file, "\n%s ", buffer);
+	if (fscanf(file, "\n%s ", buffer) != 1)
+	  return 0;
 	f_treetypes[i].componentName[j][k] = (char *) mem_alloc(strlen(buffer)+1);
 	strcpy(f_treetypes[i].componentName[j][k], buffer);
-	fscanf(file, "%s ", buffer);
+	if (fscanf(file, "%s ", buffer) != 1)
+	  return 0;
 	f_treetypes[i].componentPos[j][k] = (char *) mem_alloc(strlen(buffer)+1);
 	if (buffer[0]=='-')
 	  buffer[0] = 0;
 	strcpy(f_treetypes[i].componentPos[j][k], buffer);
-	fscanf(file, "%d\n", &f_treetypes[i].componentType[j][k]);
+	if (fscanf(file, "%d\n", &f_treetypes[i].componentType[j][k]) != 1)
+	  return 0;
       }
     }
   }
 
-  fscanf(file, "\nuniverses:\n");
+  if (fscanf(file, "\nuniverses:\n") != 0)
+    return 0;
   f_univName = (char **) mem_alloc(sizeof(char *)*f_numUnivs);
   f_univPos = (char **) mem_alloc(sizeof(char *)*f_numUnivs);
   for (i = 0; i < f_numUnivs; i++) {
@@ -277,7 +287,8 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
     strcpy(f_univPos[i], buffer2);
   }
 
-  fscanf(file, "\nvariable orders and state spaces:\n");
+  if (fscanf(file, "\nvariable orders and state spaces:\n") != 0)
+    return 0;
   if (vars) {
     *vars = (char **) mem_alloc(sizeof(char *)*(numvars + 1));
     (*vars)[numvars] = 0;
@@ -287,10 +298,12 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
   if (statespaces)
     *statespaces = (SSSet *) mem_alloc(sizeof(SSSet)*numvars); 
   for (i = 0; i < numvars; i++) {
-    if (orders)
-      fscanf(file, " %s %d:", buffer, &((*orders)[i]));
-    else
-      fscanf(file, " %s %d:", buffer, &ti);
+    if (orders) {
+      if (fscanf(file, " %s %d:", buffer, &((*orders)[i])) != 2)
+        return 0;
+    } else
+      if (fscanf(file, " %s %d:", buffer, &ti) != 2)
+	return 0;
     if (vars) {
       (*vars)[i] = (char *) mem_alloc(strlen(buffer)+1);
       strcpy((*vars)[i], buffer);
@@ -301,7 +314,8 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
 	(*statespaces)[i][t] = 0;
     }
     while (1) {
-      fscanf(file, " %u", &t);
+      if (fscanf(file, " %u", &t) != 1)
+	return 0;
       if (statespaces)
 	(*statespaces)[i][t] = 1;
       if (fgetc(file)=='\n')
@@ -319,29 +333,35 @@ GTA *gtaImport(char *filename, char ***vars, int **orders,
 	       "bdd nodes: %u\n",
 	       &t, &G->ss[i].initial, &bddNodes) != 3)
       return 0;
-    fscanf(file, "%s", buffer);
+    if (fscanf(file, "%s", buffer) != 1)
+      return 0;
     if (strcmp(buffer, "inherited-acceptance:") == 0) {
       unsigned t;
       for (j = 0; j < G->ss[i].size; j++)
-	fscanf(file, "\n%u %u %u ", &t, &t, &t);
-      fscanf(file, "behaviour:\n");
+	if (fscanf(file, "\n%u %u %u ", &t, &t, &t) != 3)
+	  return 0;
+      if (fscanf(file, "behaviour:\n") != 0)
+	return 0;
     }
     G->ss[i].behaviour = (bdd_ptr *) mem_alloc(sizeof(bdd_ptr)*ri*le);
     G->ss[i].ls = le;
     G->ss[i].rs = ri;
     for (l = 0; l < le; l++) 
       for (r = 0; r < ri; r++) {
-	fscanf(file, "%u ", &BEH(G->ss[i], l, r));
+	if (fscanf(file, "%u ", &BEH(G->ss[i], l, r)) != 1)
+	  return 0;
       }
-    fscanf(file, "\nbdd:\n");
+    if (fscanf(file, "\nbdd:\n") != 0)
+      return 0;
     tables[i] = (BddNode *) mem_alloc(sizeof(BddNode)*bddNodes);
     
     for (j = 0; j < bddNodes; j++) {
       tables[i][j].p = -1;
-      fscanf(file, "%i %u %u\n", 
+      if (fscanf(file, "%i %u %u\n", 
 	     &tables[i][j].idx,
 	     &tables[i][j].lo,
-	     &tables[i][j].hi);
+	     &tables[i][j].hi) != 3)
+	return 0;
     }
   }
 

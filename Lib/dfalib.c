@@ -55,14 +55,26 @@ mdDfa *mdLoad(char *filename)
   dfa->var = (char **) malloc(sizeof(char *)*dfa->numVars);
   for (i = 0; i < dfa->numVars; i++) {
     char t[100];
-    fscanf(file, " %s", t);
+    if (fscanf(file, " %s", t) != 1) {
+      fclose(file);
+      free(dfa);
+      return 0;
+    }
     dfa->var[i] = (char *) malloc(sizeof(char)*(strlen(t)+1));
     strcpy(dfa->var[i], t);
   }
-  fscanf(file, "\norders:");
+  if (fscanf(file, "\norders:") != 0) {
+    fclose(file);
+    free(dfa);
+    return 0;
+  }
   dfa->order = (int *) malloc(sizeof(int)*dfa->numVars);
   for (i = 0; i < dfa->numVars; i++)
-    fscanf(file, " %d", &dfa->order[i]);
+    if (fscanf(file, " %d", &dfa->order[i]) != 1) {
+      fclose(file);
+      free(dfa);
+      return 0;
+    }
   if (fscanf(file,
 	     "\nstates: %u\n"
 	     "initial: %u\n"
@@ -76,23 +88,47 @@ mdDfa *mdLoad(char *filename)
   dfa->f = (mdKind *) malloc(sizeof(mdKind)*dfa->states);
   for (i = 0; i < dfa->states; i++) {
     int t;
-    fscanf(file, " %d", &t);
+    if (fscanf(file, " %d", &t) != 1) {
+      fclose(file);
+      free(dfa);
+      return 0;
+    }
     dfa->f[i] = t;
   }
-  fscanf(file, "\nbehaviour:");
+  if (fscanf(file, "\nbehaviour:") != 0) {
+    fclose(file);
+    free(dfa);
+    return 0;
+  }
   dfa->behaviour = (mNode *) malloc(sizeof(mNode)*dfa->states);
   for (i = 0; i < dfa->states; i++)
-    fscanf(file, " %u", &dfa->behaviour[i]);
-  fscanf(file, "\nbdd:\n");
+    if (fscanf(file, " %u", &dfa->behaviour[i]) != 1) {
+      fclose(file);
+      free(dfa);
+      return 0;
+    }
+  if (fscanf(file, "\nbdd:\n") != 0) {
+    fclose(file);
+    free(dfa);
+    return 0;
+  }
   dfa->bdd = (mBdd *) malloc(sizeof(mBdd)*dfa->bddNodes);
   for (i = 0; i < dfa->bddNodes; i++)
-    fscanf(file, "%i %u %u\n", 
+    if (fscanf(file, "%i %u %u\n", 
 	       &dfa->bdd[i].idx,
 	       &dfa->bdd[i].lo,
-	       &dfa->bdd[i].hi);
+	       &dfa->bdd[i].hi) != 3) {
+      fclose(file);
+      free(dfa);
+      return 0;
+    }
   dfa->incident = 0;
 
-  fscanf(file, " ");
+  if (fscanf(file, " ") != 0) {
+    fclose(file);
+    free(dfa);
+    return 0;
+  }
   if (fgetc(file) != 'e' ||
       fgetc(file) != 'n' ||
       fgetc(file) != 'd') {
@@ -166,6 +202,11 @@ void mdFree(mdDfa *dfa)
   free(dfa->behaviour);
   free(dfa->bdd);
   free(dfa->f);
+  for (i = 0; i < dfa->numVars; i++) {
+    free(dfa->var[i]);
+  }
+  free(dfa->var);
+  free(dfa->order);
   free(dfa);
 }
 

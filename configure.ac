@@ -3,7 +3,7 @@
 dnl ========== initialization ==========
 
 AC_INIT([mona],[1.4],[amoeller@cs.au.dk],[mona],[http://www.brics.dk/mona/])
-RELEASE=14
+RELEASE=15
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR(Front/mona.cpp)
 AM_INIT_AUTOMAKE()
