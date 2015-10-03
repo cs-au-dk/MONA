@@ -3,7 +3,7 @@
 dnl ========== initialization ==========
 
 AC_INIT([mona],[1.4],[amoeller@cs.au.dk],[mona],[http://www.brics.dk/mona/])
-RELEASE=15
+RELEASE=16
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR(Front/mona.cpp)
 AM_INIT_AUTOMAKE()
@@ -27,6 +27,18 @@ AC_PROG_YACC
 AM_PROG_LEX
 LT_INIT
 
+AC_LANG_PUSH([C++])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+  [[#ifndef __cplusplus
+    #error "broken C++"
+    #endif]])],,
+  [AC_MSG_ERROR(C++ compiler not found)])
+AC_LANG_POP([C++])
+
+if test "x$LEX" != xflex; then
+  AC_MSG_ERROR(flex not found)
+fi
+
 dnl ========== special configure parameters ==========
 
 CFG=
@@ -41,8 +53,8 @@ AC_ARG_ENABLE(debug,
 [ CXXFLAGS="$CXXFLAGS -O3 -DNDEBUG" ])
 
 if test "x$GCC" = "xyes"; then
-  if test -z "`echo "$CXXFLAGS" | grep "\-Wall" 2> /dev/null`" ; then
-    CXXFLAGS="$CXXFLAGS -Wall"
+  if test -z "`echo "$CXXFLAGS" | grep "\-Wall -Wno-unused-function -Wno-unused-label" 2> /dev/null`" ; then
+    CXXFLAGS="$CXXFLAGS -Wall -Wno-unused-function -Wno-unused-label"
   fi
 fi
 

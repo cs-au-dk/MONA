@@ -163,7 +163,11 @@ AutLib::Dir::Dir(char *name, char *src, Deque<char*> *dependencies)
 		dirname, 
 		(options.mode == TREE) ? ".gta" : ".dfa",
 		dirname);
-	system(t);
+	if (system(t)) {
+	  cout << "Unable to create directory '" << dirname << "'\n"
+	       << "Execution aborted\n";
+	  exit(-1);
+	}
 	break;
       }
     }

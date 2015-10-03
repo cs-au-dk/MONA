@@ -23,3 +23,5 @@ presburger_transduction_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la \
 presburger_analysis_SOURCES = presburger_analysis.c
 presburger_analysis_LDADD = ../Mem/libmonamem.la ../BDD/libmonabdd.la \
 	../DFA/libmonadfa.la
+
+examples: all

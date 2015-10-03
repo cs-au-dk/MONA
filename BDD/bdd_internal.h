@@ -165,8 +165,8 @@ extern boolean table_has_been_doubled;
 GNUC_INLINE unsigned lookup_cache(bdd_manager *bddm, unsigned *h,
 				  unsigned p, unsigned q);
 
-GNUC_INLINE void insert_cache(bdd_manager *bddm, unsigned h, 
-			      unsigned p, unsigned q, unsigned res);
+void insert_cache(bdd_manager *bddm, unsigned h, 
+		  unsigned p, unsigned q, unsigned res);
 
 void double_cache( bdd_manager *bddm,
 		  unsigned (*result_fn)(unsigned r));

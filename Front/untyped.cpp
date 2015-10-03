@@ -1658,9 +1658,9 @@ Predicate_Macro_Declaration::genAST(MonaAST &)
       parKind = ParnameU;
       break;
     case pPar:
-      if (parKind == -1)
-	TypeError("Parameter type missing in declaration of '" 
-		  + String(name->str) + "'", (*d)->pos);
+      //      if (parKind == -1)
+      //	TypeError("Parameter type missing in declaration of '" 
+      //		  + String(name->str) + "'", (*d)->pos);
       break;
     }
 

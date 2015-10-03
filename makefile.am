@@ -1,8 +1,7 @@
 SUBDIRS =  config Mem BDD DFA GTA Front Lib Examples
 EXTRA_DIST = mona.spec mona-mode.el mona.1
 MAINTAINERCLEANFILES = configure stamp-h.in makefile makefile.in aclocal.m4 \
-	  config.h.in config.log config.status config/missing configure.lineno \
-	  m4
+	  config.h.in config.log config.status config/missing configure.lineno
 man_MANS = mona.1
 dist_data_DATA = mona-mode.el
 monadir = $(includedir)/mona
@@ -22,5 +21,8 @@ lib:	all
 
 examples: all
 	$(MAKE) -C Examples $@
+
+maintainer-clean-local:
+	-rm -rf m4
 
 .PHONY: rpm tgz lib examples

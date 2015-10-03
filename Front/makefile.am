@@ -1,5 +1,5 @@
 MAINTAINERCLEANFILES = makefile.in makefile
-BUILT_SOURCES = parser.h
+BUILT_SOURCES = scanner.cpp parser.cpp parser.hpp
 AM_LFLAGS = -l
 AM_YFLAGS = -d
 bin_PROGRAMS = mona
