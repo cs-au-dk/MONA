@@ -778,9 +778,9 @@ with_sysroot
 enable_libtool_lock
 enable_debug
 enable_profiling
+enable_dlmalloc
 enable_memdebug
 enable_maxalloc
-enable_malloc
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1429,9 +1429,9 @@ Optional Features:
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --enable-debug          development mode
   --enable-profiling      compile with profiling
+  --enable-dlmalloc       use dlmalloc instead of built-in malloc
   --enable-memdebug       enable debug info for dlmalloc
-  --enable-maxalloc       measure max allocated memory
-  --enable-malloc         use built-in malloc instead of dlmalloc
+  --enable-maxalloc       measure max allocated memory for dlmalloc
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2423,7 +2423,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-RELEASE=16
+RELEASE=17
 ac_aux_dir=
 for ac_dir in config "$srcdir"/config; do
   if test -f "$ac_dir/install-sh"; then
@@ -16680,8 +16680,8 @@ fi
 
 
 if test "x$GCC" = "xyes"; then
-  if test -z "`echo "$CXXFLAGS" | grep "\-Wall -Wno-unused-function -Wno-unused-label" 2> /dev/null`" ; then
-    CXXFLAGS="$CXXFLAGS -Wall -Wno-unused-function -Wno-unused-label"
+  if test -z "`echo "$CXXFLAGS" | grep "\-Wall -Wno-unused-function -Wno-unused-label -Wno-sign-compare" 2> /dev/null`" ; then
+    CXXFLAGS="$CXXFLAGS -Wall -Wno-unused-function -Wno-unused-label -Wno-sign-compare"
   fi
 fi
 
@@ -16692,6 +16692,17 @@ if test "${enable_profiling+set}" = set; then :
      no) ;;
      *) as_fn_error $? "bad value ${enableval} for --enable-profiling" "$LINENO" 5 ;;
   esac
+fi
+
+
+# Check whether --enable-dlmalloc was given.
+if test "${enable_dlmalloc+set}" = set; then :
+  enableval=$enable_dlmalloc;  case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -DUSE_DLMALLOC" ;;
+     no) ;;
+     *) as_fn_error $? "bad value ${enableval} for --enable-dlmalloc" "$LINENO" 5 ;;
+  esac
+  CFG="$CFG --enable-dlmalloc=$enableval"
 fi
 
 
@@ -16712,17 +16723,6 @@ if test "${enable_maxalloc+set}" = set; then :
      no) ;;
      *) as_fn_error $? "bad value ${enableval} for --enable-maxalloc" "$LINENO" 5 ;;
   esac
-fi
-
-
-# Check whether --enable-malloc was given.
-if test "${enable_malloc+set}" = set; then :
-  enableval=$enable_malloc;  case "${enableval}" in
-     yes) CXXFLAGS="$CXXFLAGS -DUSE_MALLOC" ;;
-     no) ;;
-     *) as_fn_error $? "bad value ${enableval} for --enable-malloc" "$LINENO" 5 ;;
-  esac
-  CFG="$CFG --enable-malloc=$enableval"
 fi
 
 

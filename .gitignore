@@ -12,7 +12,7 @@ makefile
 *.lo
 *.la
 /Front/parser.cpp
-/Front/parser.h
+/Front/parser.hpp
 /Front/scanner.cpp
 .libs
 Examples/bdd_example

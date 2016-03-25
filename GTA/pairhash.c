@@ -135,7 +135,7 @@ void insertPHT(PairHashTable *t, unsigned p, unsigned q, unsigned n)
 void dumpPHT(PairHashTable *t)
 {
   int i;
-  printf("\n<--contents of pair-table at 0x%x\n", (int) t);
+  printf("\n<--contents of pair-table at 0x%p\n", (void*) t);
   for (i = 0; i < t->size; i++) {
     PairHashTableEntry *e = &t->t[i];
     while (e) {

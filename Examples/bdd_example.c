@@ -108,8 +108,10 @@ int main() {
  
   /*handle = BDD_LAST_HANDLE(bddm1);*/
 
+  /*
   assert(handle == 0);
   assert(BDD_ROOT(bddm1, handle) == and_2_7);
+  */
 
   /* reset all mark fields in bddm1 before an apply1 operation */
   bdd_prepare_apply1(bddm1); 

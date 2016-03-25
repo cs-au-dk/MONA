@@ -1,4 +1,4 @@
-#ifdef USE_MALLOC
+#ifndef USE_DLMALLOC
 
 int dl_dummy;
 

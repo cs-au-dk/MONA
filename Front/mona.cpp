@@ -199,7 +199,7 @@ void
 Usage()
 {
   cout << "MONA v" << VERSION << "-" << RELEASE << " for WS1S/WS2S\n"
-    << "Copyright (C) 1997-2013 Aarhus University\n\n"
+    << "Copyright (C) 1997-2016 Aarhus University\n\n"
     << "Usage: mona [options] <filename>\n\n"
     << "Options:\n"
     << " -w   Output whole automaton\n"

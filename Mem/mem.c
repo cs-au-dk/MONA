@@ -49,10 +49,10 @@ void mem_error()
 
 void *mem_alloc(size_t s)
 {
-#ifdef USE_MALLOC
-  void *x = malloc(s);
-#else
+#ifdef USE_DLMALLOC
   void *x = dlmalloc(s);
+#else
+  void *x = malloc(s);
 #endif
   if (!x)
     mem_error();
@@ -64,19 +64,19 @@ void *mem_alloc(size_t s)
 
 void mem_free(void *x)
 {
-#ifdef USE_MALLOC
-  free(x);
-#else
+#ifdef USE_DLMALLOC
   dlfree(x);
+#else
+  free(x);
 #endif
 }
 
 void *mem_resize(void *x, size_t s)
 {
-#ifdef USE_MALLOC
-  void *y = realloc(x, s);
-#else
+#ifdef USE_DLMALLOC
   void *y = dlrealloc(x, s);
+#else
+  void *y = realloc(x, s);
 #endif
   if (!y)
     mem_error();
@@ -98,10 +98,10 @@ void mem_zero(void *x, size_t s)
 
 unsigned int mem_allocated()
 {
-#ifdef USE_MALLOC
-  return -1;
-#else
+#ifdef USE_DLMALLOC
   struct mallinfo m = dlmallinfo();
   return (unsigned) m.uordblks+m.hblkhd;
+#else
+  return -1;
 #endif
 }

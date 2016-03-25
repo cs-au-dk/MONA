@@ -73,7 +73,7 @@ unsigned prod_term_fn(unsigned  p, unsigned q)
 
  
 /*insert a loop for the product state (p, q) */
-GNUC_INLINE void make_loop (bdd_manager *bddm, unsigned p, unsigned q) {
+static GNUC_INLINE void make_loop (bdd_manager *bddm, unsigned p, unsigned q) {
   int res;
   res = (int)(uintptr_t) lookup_in_hash_tab(htbl, p, q);
   invariant(res);

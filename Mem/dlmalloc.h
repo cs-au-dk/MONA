@@ -1,4 +1,4 @@
-#ifndef USE_MALLOC
+#ifdef USE_DLMALLOC
 
 /*
   Default header file for malloc-2.8.x, written by Doug Lea

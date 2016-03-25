@@ -1,6 +1,6 @@
 ;;; mona-mode.el -- Emacs MONA mode
 
-;; Copyright (C) 1997-2013 Aarhus University.
+;; Copyright (C) 1997-2016 Aarhus University.
 ;; 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by

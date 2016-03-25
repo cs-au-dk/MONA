@@ -3,7 +3,7 @@
 dnl ========== initialization ==========
 
 AC_INIT([mona],[1.4],[amoeller@cs.au.dk],[mona],[http://www.brics.dk/mona/])
-RELEASE=16
+RELEASE=17
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR(Front/mona.cpp)
 AM_INIT_AUTOMAKE()
@@ -53,8 +53,8 @@ AC_ARG_ENABLE(debug,
 [ CXXFLAGS="$CXXFLAGS -O3 -DNDEBUG" ])
 
 if test "x$GCC" = "xyes"; then
-  if test -z "`echo "$CXXFLAGS" | grep "\-Wall -Wno-unused-function -Wno-unused-label" 2> /dev/null`" ; then
-    CXXFLAGS="$CXXFLAGS -Wall -Wno-unused-function -Wno-unused-label"
+  if test -z "`echo "$CXXFLAGS" | grep "\-Wall -Wno-unused-function -Wno-unused-label -Wno-sign-compare" 2> /dev/null`" ; then
+    CXXFLAGS="$CXXFLAGS -Wall -Wno-unused-function -Wno-unused-label -Wno-sign-compare"
   fi
 fi
 
@@ -66,6 +66,15 @@ AC_ARG_ENABLE(profiling,
      *) AC_MSG_ERROR(bad value ${enableval} for --enable-profiling) ;;
   esac])
 
+AC_ARG_ENABLE(dlmalloc,
+[  --enable-dlmalloc       use dlmalloc instead of built-in malloc],
+[ case "${enableval}" in
+     yes) CXXFLAGS="$CXXFLAGS -DUSE_DLMALLOC" ;;
+     no) ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-dlmalloc) ;;
+  esac
+  CFG="$CFG --enable-dlmalloc=$enableval"])
+
 AC_ARG_ENABLE(memdebug,
 [  --enable-memdebug       enable debug info for dlmalloc],
 [ case "${enableval}" in
@@ -75,21 +84,12 @@ AC_ARG_ENABLE(memdebug,
   esac])
 
 AC_ARG_ENABLE(maxalloc,
-[  --enable-maxalloc       measure max allocated memory],
+[  --enable-maxalloc       measure max allocated memory for dlmalloc],
 [ case "${enableval}" in
      yes) CXXFLAGS="$CXXFLAGS -DMAXALLOCATED" ;;
      no) ;;
      *) AC_MSG_ERROR(bad value ${enableval} for --enable-maxalloc) ;;
   esac])
-
-AC_ARG_ENABLE(malloc,
-[  --enable-malloc         use built-in malloc instead of dlmalloc],
-[ case "${enableval}" in
-     yes) CXXFLAGS="$CXXFLAGS -DUSE_MALLOC" ;;
-     no) ;;
-     *) AC_MSG_ERROR(bad value ${enableval} for --enable-malloc) ;;
-  esac
-  CFG="$CFG --enable-malloc=$enableval"])
 
 AC_SUBST(CFG)
 

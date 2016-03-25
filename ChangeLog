@@ -1,3 +1,7 @@
+2016-03-23 (version 1.4-17)
+  - fixes to make gcc 6.0 happy [Thanks to Jerry James, Ralf Trainen, and Gaurav Gupta!]
+  - default switched from dlmalloc to built-in malloc
+
 2015-10-04 (version 1.4-16)
   - updated autotools and build files
 

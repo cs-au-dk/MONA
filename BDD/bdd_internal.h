@@ -162,9 +162,6 @@ struct stat_record_ {
 extern struct stat_record_ stat_record[];
 extern boolean table_has_been_doubled;
 
-GNUC_INLINE unsigned lookup_cache(bdd_manager *bddm, unsigned *h,
-				  unsigned p, unsigned q);
-
 void insert_cache(bdd_manager *bddm, unsigned h, 
 		  unsigned p, unsigned q, unsigned res);
 
