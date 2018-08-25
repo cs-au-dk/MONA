@@ -1825,7 +1825,12 @@ ASTForm_Import::makeCode(SubstCode *subst)
       actuals->push_back(*i); // no substitution
   }
 
-  return codeTable->insert(new Code_Import(file, fileVars, actuals, pos));
+  Deque<char*> *newForms = new Deque<char*>;
+  for (Deque<char*>::iterator it = fileVars->begin(); it != fileVars->end(); ++it) {
+    newForms->push_back(*it);
+  }
+
+  return codeTable->insert(new Code_Import(file, newForms, actuals, pos));
 }
 
 VarCode
