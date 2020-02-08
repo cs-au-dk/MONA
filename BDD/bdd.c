@@ -34,7 +34,7 @@ boolean table_has_been_doubled;
 /* if something is cached for (p, q), then return it; otherwise, return
    0.  In any case, set *h to the hash value calculated) */
 
-GNUC_INLINE unsigned lookup_cache(bdd_manager *bddm, unsigned *h,
+static GNUC_INLINE unsigned lookup_cache(bdd_manager *bddm, unsigned *h,
 				  unsigned p, unsigned q)  {
   unsigned temp, res;
    cache_record *cache_ptr;
