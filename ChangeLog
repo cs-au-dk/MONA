@@ -1,3 +1,8 @@
+2020-02-08 (version 1.4-18)
+  - small fix to make gcc 10 happy [Thanks to Jeff Law and Jerry James!]
+  - fixed segfault at import [Thanks to Ondra Lengal!]
+  - updated automake files
+
 2016-03-23 (version 1.4-17)
   - fixes to make gcc 6.0 happy [Thanks to Jerry James, Ralf Trainen, and Gaurav Gupta!]
   - default switched from dlmalloc to built-in malloc

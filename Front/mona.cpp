@@ -275,7 +275,7 @@ main(int argc, char *argv[])
 
   if (options.printProgress)
     cout << "MONA v" << VERSION << "-" << RELEASE <<  " for WS1S/WS2S\n"
-      "Copyright (C) 1997-2013 Aarhus University\n\n"
+      "Copyright (C) 1997-2016 Aarhus University\n\n"
       "PARSING\n";
 
   Timer timer_parsing;
